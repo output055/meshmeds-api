@@ -1,0 +1,26 @@
+﻿
+   INFO  Running migrations.  
+
+  2026_03_19_001027_add_status_and_last_login_to_users_table  1.59ms FAIL
+
+   Illuminate\Database\QueryException 
+
+  SQLSTATE[42S21]: Column already exists: 1060 Duplicate column name 'status' (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: meshmeds_api, SQL: alter table `users` add `status` enum('Active', 'Inactive') not null default 'Active')
+
+  at vendor\laravel\framework\src\Illuminate\Database\Connection.php:841
+    837Γûò             $exceptionType = $this->isUniqueConstraintError($e)
+    838Γûò                 ? UniqueConstraintViolationException::class
+    839Γûò                 : QueryException::class;
+    840Γûò 
+  Γ₧£ 841Γûò             throw new $exceptionType(
+    842Γûò                 $this->getNameWithReadWriteType(),
+    843Γûò                 $query,
+    844Γûò                 $this->prepareBindings($bindings),
+    845Γûò                 $e,
+
+  1   vendor\laravel\framework\src\Illuminate\Database\Connection.php:587
+      PDOException::("SQLSTATE[42S21]: Column already exists: 1060 Duplicate column name 'status'")
+
+  2   vendor\laravel\framework\src\Illuminate\Database\Connection.php:587
+      PDOStatement::execute()
+
