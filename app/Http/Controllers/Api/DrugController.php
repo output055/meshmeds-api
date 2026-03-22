@@ -25,6 +25,7 @@ class DrugController extends Controller
                 'stock_qty'             => (int) $drug->stock_quantity,
                 'expiry_date'           => $drug->expiry_date,
                 'last_restock_quantity' => (int) $drug->last_restock_quantity,
+                'is_service'            => (bool) $drug->is_service,
             ];
         });
 
@@ -41,6 +42,7 @@ class DrugController extends Controller
             'selling_price' => 'required|numeric|min:0',
             'stock_qty'     => 'required|integer|min:0',
             'expiry_date'   => 'nullable|date',
+            'is_service'    => 'sometimes|boolean',
         ]);
 
         $drug = Drug::create([
@@ -51,10 +53,15 @@ class DrugController extends Controller
             'selling_price'         => $data['selling_price'],
             'stock_quantity'        => $data['stock_qty'],
             'expiry_date'           => $data['expiry_date'] ?? null,
+            'is_service'            => $data['is_service'] ?? false,
             'last_restock_quantity' => 0,
         ]);
 
-        $this->logActivity('add_drug', "Added drug {$drug->name} (qty: {$drug->stock_quantity})");
+        $isService = $data['is_service'] ?? false;
+        $action = $isService ? 'add_service' : 'add_drug';
+        $type = $isService ? 'service' : 'drug';
+        $qtyText = $isService ? '' : " (qty: {$drug->stock_quantity})";
+        $this->logActivity($action, "Added {$type} {$drug->name}{$qtyText}");
 
         return response()->json([
             'id'                    => $drug->id,
@@ -66,6 +73,7 @@ class DrugController extends Controller
             'stock_qty'             => (int) $drug->stock_quantity,
             'expiry_date'           => $drug->expiry_date,
             'last_restock_quantity' => (int) $drug->last_restock_quantity,
+            'is_service'            => (bool) $drug->is_service,
         ], 201);
     }
 
@@ -89,11 +97,15 @@ class DrugController extends Controller
             'cost_price'    => 'sometimes|required|numeric|min:0',
             'selling_price' => 'sometimes|required|numeric|min:0',
             'expiry_date'   => 'nullable|date',
+            'is_service'    => 'sometimes|boolean',
         ]);
 
         $drug->update($data);
 
-        $this->logActivity('update_drug', "Updated drug {$drug->name}");
+        $isService = array_key_exists('is_service', $data) ? $data['is_service'] : $drug->is_service;
+        $action = $isService ? 'update_service' : 'update_drug';
+        $type = $isService ? 'service' : 'drug';
+        $this->logActivity($action, "Updated {$type} {$drug->name}");
 
         return response()->json([
             'id'                    => $drug->id,
@@ -105,6 +117,7 @@ class DrugController extends Controller
             'stock_qty'             => (int) $drug->stock_quantity,
             'expiry_date'           => $drug->expiry_date,
             'last_restock_quantity' => (int) $drug->last_restock_quantity,
+            'is_service'            => (bool) $drug->is_service,
         ]);
     }
 
@@ -113,7 +126,9 @@ class DrugController extends Controller
         $name = $drug->name;
         $drug->delete();
 
-        $this->logActivity('delete_drug', "Deleted drug {$name}");
+        $action = $drug->is_service ? 'delete_service' : 'delete_drug';
+        $type = $drug->is_service ? 'service' : 'drug';
+        $this->logActivity($action, "Deleted {$type} {$name}");
 
         return response()->json(['message' => 'Drug deleted successfully.']);
     }
@@ -139,6 +154,7 @@ class DrugController extends Controller
             'stock_qty'             => (int) $drug->stock_quantity,
             'expiry_date'           => $drug->expiry_date,
             'last_restock_quantity' => (int) $drug->last_restock_quantity,
+            'is_service'            => (bool) $drug->is_service,
         ]);
     }
 }

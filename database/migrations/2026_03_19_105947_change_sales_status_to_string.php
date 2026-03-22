@@ -11,7 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        \Illuminate\Support\Facades\DB::statement("ALTER TABLE sales MODIFY status VARCHAR(50) DEFAULT 'Completed'");
+        try {
+            \Illuminate\Support\Facades\DB::statement("ALTER TABLE sales MODIFY status VARCHAR(50) DEFAULT 'Completed'");
+        } catch (\Exception $e) {}
     }
 
     /**

@@ -12,15 +12,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('sales', function (Blueprint $table) {
-            $table->decimal('refunded_amount', 10, 2)->default(0)->after('subtotal');
+            if (!Schema::hasColumn('sales', 'refunded_amount')) {
+                $table->decimal('refunded_amount', 10, 2)->default(0)->after('subtotal');
+            }
         });
 
         Schema::table('sale_items', function (Blueprint $table) {
-            $table->integer('returned_quantity')->default(0)->after('quantity');
+            if (!Schema::hasColumn('sale_items', 'returned_quantity')) {
+                $table->integer('returned_quantity')->default(0)->after('quantity');
+            }
         });
 
         Schema::table('sale_reversals', function (Blueprint $table) {
-            $table->json('returned_items')->nullable()->after('reason');
+            if (!Schema::hasColumn('sale_reversals', 'returned_items')) {
+                $table->json('returned_items')->nullable()->after('reason');
+            }
         });
     }
 

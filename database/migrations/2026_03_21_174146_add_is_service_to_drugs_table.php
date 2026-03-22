@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('returns')) {
-            Schema::create('returns', function (Blueprint $table) {
-                $table->id();
-                $table->timestamps();
-            });
-        }
+        Schema::table('drugs', function (Blueprint $table) {
+            $table->boolean('is_service')->default(false)->after('name');
+        });
     }
 
     /**
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('returns');
+        Schema::table('drugs', function (Blueprint $table) {
+            $table->dropColumn('is_service');
+        });
     }
 };

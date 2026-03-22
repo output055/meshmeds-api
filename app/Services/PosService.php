@@ -33,8 +33,10 @@ class PosService
                     throw new Exception("Drug with ID {$item['id']} not found.");
                 }
                 
-                if ($drug->stock_quantity < $item['quantity']) {
-                    throw new Exception("Insufficient stock for {$drug->name}. Only {$drug->stock_quantity} left.");
+                if (!$drug->is_service) {
+                    if ($drug->stock_quantity < $item['quantity']) {
+                        throw new Exception("Insufficient stock for {$drug->name}. Only {$drug->stock_quantity} left.");
+                    }
                 }
                 
                 // Track financials securely server-side based on actual database entries
@@ -45,9 +47,11 @@ class PosService
                 $totalSubtotal += $rowSubtotal;
                 $totalProfit += ($unitProfit * $item['quantity']);
                 
-                // Deduct physical stock
-                $drug->stock_quantity -= $item['quantity'];
-                $drug->save();
+                if (!$drug->is_service) {
+                    // Deduct physical stock
+                    $drug->stock_quantity -= $item['quantity'];
+                    $drug->save();
+                }
                 
                 $saleItemsData[] = [
                     'drug_id' => $drug->id,

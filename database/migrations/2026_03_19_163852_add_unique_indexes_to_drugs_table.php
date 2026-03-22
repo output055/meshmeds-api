@@ -11,10 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('drugs', function (Blueprint $table) {
-            $table->unique('name');
-            $table->unique('barcode');
-        });
+        try {
+            Schema::table('drugs', function (Blueprint $table) {
+                $table->unique('name');
+            });
+        } catch (\Exception $e) {}
+        
+        try {
+            Schema::table('drugs', function (Blueprint $table) {
+                $table->unique('barcode');
+            });
+        } catch (\Exception $e) {}
     }
 
     /**

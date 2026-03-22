@@ -1,0 +1,27 @@
+
+  Migration name  Batch / Status  
+  0001_01_01_000000_create_users_table  [1] Ran  
+  0001_01_01_000001_create_cache_table  [1] Ran  
+  0001_01_01_000002_create_jobs_table  [1] Ran  
+  2026_03_18_183830_create_personal_access_tokens_table  [1] Ran  
+  2026_03_18_194453_create_drugs_table  [1] Ran  
+  2026_03_18_194453_create_sales_table  [1] Ran  
+  2026_03_18_194454_create_sale_items_table  [1] Ran  
+  2026_03_18_233155_add_status_to_sales_table  [2] Ran  
+  2026_03_18_233155_create_sale_reversals_table  [2] Ran  
+  2026_03_19_001027_add_status_and_last_login_to_users_table  [16] Ran  
+  2026_03_19_102508_create_returns_table  Pending  
+  2026_03_19_102528_create_return_items_table  Pending  
+  2026_03_19_102727_add_partial_returns_fields_to_sales_tables  Pending  
+  2026_03_19_103505_update_sales_status_enum  Pending  
+  2026_03_19_105947_change_sales_status_to_string  Pending  
+  2026_03_19_122415_add_amount_to_sale_reversals  Pending  
+  2026_03_19_144833_create_activity_logs_table  [10] Ran  
+  2026_03_19_160941_add_expiry_date_to_drugs_table  [11] Ran  
+  2026_03_19_162640_add_last_restock_quantity_to_drugs_table  [12] Ran  
+  2026_03_19_163852_add_unique_indexes_to_drugs_table  Pending  
+  2026_03_19_165233_add_soft_deletes_to_drugs_table  [13] Ran  
+  2026_03_19_225225_create_suppliers_table  [14] Ran  
+  2026_03_19_231605_create_expenses_table  [15] Ran  
+  2026_03_21_174146_add_is_service_to_drugs_table  Pending  
+

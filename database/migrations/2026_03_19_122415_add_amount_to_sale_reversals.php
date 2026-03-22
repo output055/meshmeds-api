@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('sale_reversals', function (Blueprint $table) {
-            $table->decimal('amount', 12, 2)->default(0)->after('user_id');
+            if (!Schema::hasColumn('sale_reversals', 'amount')) {
+                $table->decimal('amount', 12, 2)->default(0)->after('user_id');
+            }
         });
     }
 

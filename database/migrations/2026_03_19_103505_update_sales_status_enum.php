@@ -11,7 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        \Illuminate\Support\Facades\DB::statement("ALTER TABLE sales MODIFY status ENUM('Completed', 'voided', 'partially_refunded') DEFAULT 'Completed'");
+        try {
+            \Illuminate\Support\Facades\DB::statement("ALTER TABLE sales MODIFY status ENUM('Completed', 'voided', 'partially_refunded') DEFAULT 'Completed'");
+        } catch (\Exception $e) {}
     }
 
     /**
