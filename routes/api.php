@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->group(function () {
     
     // Inventory
     Route::apiResource('drugs', DrugController::class);
+    Route::post('/drugs/{drug}/increment-search', [DrugController::class, 'incrementSearch']);
     Route::apiResource('suppliers', SupplierController::class);
     Route::apiResource('expenses', ExpenseController::class);
     Route::get('dashboard-stats', [DashboardController::class, 'index']);

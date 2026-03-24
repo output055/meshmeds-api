@@ -14,7 +14,7 @@ class DrugController extends Controller
 
     public function index()
     {
-        $drugs = Drug::all()->map(function ($drug) {
+        $drugs = Drug::orderBy('search_count', 'desc')->orderBy('name', 'asc')->get()->map(function ($drug) {
             return [
                 'id'                    => (int) $drug->id,
                 'name'                  => $drug->name,
@@ -156,5 +156,11 @@ class DrugController extends Controller
             'last_restock_quantity' => (int) $drug->last_restock_quantity,
             'is_service'            => (bool) $drug->is_service,
         ]);
+    }
+
+    public function incrementSearch(Drug $drug)
+    {
+        $drug->increment('search_count');
+        return response()->json(['message' => 'Search count incremented']);
     }
 }
